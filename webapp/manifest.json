@@ -1,0 +1,231 @@
+{
+  "_version": "1.48.0",
+  "sap.app": {
+    "id": "com.ep.zistocksgifts",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.17.5",
+      "toolsId": "9e95cf28-f9a5-4dcf-8846-3fcdc815c8ba"
+    },
+    "dataSources": {
+      "annotation": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation.xml",
+        "settings": {
+          "localUri": "annotations/annotation.xml"
+        }
+      },
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zz_sb_stock_report_pres/srvd/sap/zz_sd_stock_report_pres/0001/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "annotation"
+          ],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      },
+      "v2Service": {
+        "uri": "/sap/opu/odata/sap/ZZ_DD_STOCK_PRES_PLANTS_CDS/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "ZZ_DD_STOCK_PRES_PLANTS_CDS_VAN"
+          ],
+          "localUri": "localService/v2Service/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.108.26",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.ep.zistocksgifts.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "v2": {
+        "dataSource": "v2Service",
+        "preload": true,
+        "settings": {}
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "zz_pv_stock_pres_materialsList",
+          "target": "zz_pv_stock_pres_materialsList"
+        },
+        {
+          "pattern": "zz_pv_stock_pres_materials({key}):?query:",
+          "name": "zz_pv_stock_pres_materialsObjectPage",
+          "target": "zz_pv_stock_pres_materialsObjectPage"
+        },
+        {
+          "pattern": "zz_pv_stock_pres_materials({key})/_plant({key2}):?query:",
+          "name": "zz_pv_stock_pres_plantsObjectPage",
+          "target": "zz_pv_stock_pres_plantsObjectPage"
+        }
+      ],
+      "targets": {
+        "zz_pv_stock_pres_materialsList": {
+          "type": "Component",
+          "id": "zz_pv_stock_pres_materialsList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/zz_pv_stock_pres_materials",
+              "variantManagement": "Page",
+              "navigation": {
+                "zz_pv_stock_pres_materials": {
+                  "detail": {
+                    "route": "zz_pv_stock_pres_materialsObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zz_pv_stock_pres_materialsObjectPage": {
+          "type": "Component",
+          "id": "zz_pv_stock_pres_materialsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/zz_pv_stock_pres_materials",
+              "navigation": {
+                "_plant": {
+                  "detail": {
+                    "route": "zz_pv_stock_pres_plantsObjectPage"
+                  }
+                }
+              },
+              "content": {
+                "body": {
+                  "sections": {
+                    "BulletChart": {
+                      "template": "com.ep.zistocksgifts.ext.fragment.BulletChart",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "OrderTab"
+                      },
+                      "title": "Chart"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zz_pv_stock_pres_plantsObjectPage": {
+          "type": "Component",
+          "id": "zz_pv_stock_pres_plantsObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/zz_pv_stock_pres_materials/_plant",
+              "content": {
+                "body": {
+                  "sections": {
+                    "DonutChart": {
+                      "template": "com.ep.zistocksgifts.ext.fragment.DonutChart",
+                      "position": {
+                        "placement": "After",
+                        "anchor": "OrderTab"
+                      },
+                      "title": "Chart"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ObjectPage.ObjectPageController#com.ep.zistocksgifts::zz_pv_stock_pres_plantsObjectPage": {
+            "controllerName": "com.ep.zistocksgifts.ext.controller.BatchesPageExtension"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController#com.ep.zistocksgifts::zz_pv_stock_pres_materialsObjectPage": {
+            "controllerName": "com.ep.zistocksgifts.ext.controller.PlantsPageExtension"
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}
