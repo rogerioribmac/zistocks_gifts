@@ -180,6 +180,13 @@
                     }
                   }
                 }
+              },
+              "controlConfiguration": {
+                "_plant/@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "type": "GridTable"
+                  }
+                }
               }
             }
           }
